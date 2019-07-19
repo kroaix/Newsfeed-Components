@@ -85,11 +85,93 @@ const data = [
     thirdParagraph: `Hodor hodor - hodor... Hodor hodor hodor hodor. Hodor. Hodor! Hodor hodor, hodor hodor hodor hodor hodor; hodor hodor? Hodor!
           Hodor hodor, HODOR hodor, hodor hodor?! Hodor! Hodor hodor, HODOR hodor, hodor hodor, hodor, hodor hodor. Hodor, hodor.
           Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
+  },
+  {
+    title: 'Testing functionality',
+    date: 'July 18th, 2019',
+    firstParagraph: `This`,
+
+    secondParagraph: `Is`,
+
+    thirdParagraph: `Working`
   }
 ];
 
-/* Step 1: Create a function that creates a component. You will want your component to look like the template below: 
-  
+class ArticlePanel{
+  constructor(article, title, date, firstParagraph, secondParagraph, thirdParagraph){
+    this.isOpen = false;
+    this.article = article;
+    this.articleTitle = article.querySelector('h2');
+    this.articleTitle.textContent = title;
+    this.articleDate = article.querySelector('.date');
+    this.articleDate.textContent = date;
+    this.paragraphs = article.querySelectorAll('p:not([class])');
+    this.paragraphs = Array.from(this.paragraphs);
+    this.paragraphs[0].textContent = firstParagraph;
+    this.paragraphs[1].textContent = secondParagraph;
+    this.paragraphs[2].textContent = thirdParagraph;
+    this.articleButton = article.querySelector('.expandButton');
+    this.articleButton.addEventListener('click', () => {
+      this.toggleArticle();
+    });
+  }
+  toggleButton() {
+    this.isOpen = !this.isOpen;
+    if (!this.isOpen) {
+      this.articleButton.textContent = "Open";
+    } else {
+      this.articleButton.textContent = "Close";
+    }
+  }
+  toggleArticle() {
+    this.toggleButton();
+    this.article.classList.toggle('article-open');
+  }
+}
+
+const createNewArticle = () => {
+  const articles = document.querySelector('.articles');
+  const newArticle = document.createElement('div');
+  newArticle.classList.add('article');
+  const articleTitle = document.createElement('h2');
+  newArticle.appendChild(articleTitle);
+  const articleDate = document.createElement('p');
+  articleDate.classList.add('date');
+  newArticle.appendChild(articleDate);
+  const articleP1 = document.createElement('p');
+  const articleP2 = document.createElement('p');
+  const articleP3 = document.createElement('p');
+  newArticle.appendChild(articleP1);
+  newArticle.appendChild(articleP2);
+  newArticle.appendChild(articleP3);
+  const articleButton = document.createElement('span');
+  articleButton.classList.add('expandButton');
+  articleButton.textContent = "Open";
+  newArticle.appendChild(articleButton);
+  articles.appendChild(newArticle);
+  return newArticle;
+}
+
+data.map((articleData) => {
+  new ArticlePanel(
+    createNewArticle(),
+    articleData.title,
+    articleData.date,
+    articleData.firstParagraph,
+    articleData.secondParagraph,
+    articleData.thirdParagraph
+  );
+})
+
+
+
+
+
+
+
+
+/* Step 1: Create a function that creates a component. You will want your component to look like the template below:
+
   <div class="article">
     <h2>{title of the article}</h2>
     <p class="date">{date of the article}</p>
@@ -107,8 +189,8 @@ const data = [
 
   Step 3: return the entire component.
 
-  Step 4: Map over the data, creating a component for each oject and add each component to the DOM as children of the 'articles' div.
+  Step 4: Map over the data, creating a component for each object and add each component to the DOM as children of the 'articles' div.
 
-  Step 5: Add a new article to the array. Make sure it is in the same format as the others. Refresh the page to see the new artible
+  Step 5: Add a new article to the array. Make sure it is in the same format as the others. Refresh the page to see the new article
 
 */
